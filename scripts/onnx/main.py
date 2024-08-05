@@ -42,7 +42,6 @@ def main() -> None:
         shuffle=False,
         collate_fn=lambda x: process_queries(processor, x, Image.new("RGB", (448, 448), (255, 255, 255))),
     )
-
     qs = []
     for batch_query in dataloader:
         with torch.no_grad():
