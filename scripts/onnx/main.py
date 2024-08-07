@@ -2,20 +2,21 @@ import torch
 from torch.utils.data import DataLoader
 from transformers import AutoProcessor
 from PIL import Image
-
 from colpali_engine.models.paligemma_colbert_architecture import ColPali
 from colpali_engine.trainer.retrieval_evaluator import CustomEvaluator
 from colpali_engine.utils.colpali_processing_utils import process_images, process_queries
 from colpali_engine.utils.image_from_page_utils import load_from_dataset
+import os
+from tqdm import tqdm
 
-
+# pip install -U onnx onnxscript optimum onnxruntime-gpu olive-ai[gpu] accelerate transformers pillow torch torchvision torchaudio mteb peft
 
 def main() -> None:
 
     # Load model
-    model = ColPali.from_pretrained("google/paligemma-3b-mix-448", torch_dtype=torch.bfloat16, device_map="cuda").eval()
-    model.load_adapter("vidore/colpali")
-    processor = AutoProcessor.from_pretrained("vidore/colpali")
+    model = ColPali.from_pretrained(os.environ["MODEL_HOME"] + "/google/paligemma-3b-mix-448", torch_dtype=torch.bfloat16, device_map="cuda").eval()
+    model.load_adapter(os.environ["MODEL_HOME"] + "/vidore/colpali")
+    processor = AutoProcessor.from_pretrained(os.environ["MODEL_HOME"] + "/vidore/colpali")
 
     # select images -> load_from_pdf(<pdf_path>),  load_from_image_urls(["<url_1>"]), load_from_dataset(<path>)
     images = load_from_dataset("vidore/docvqa_test_subsampled")
