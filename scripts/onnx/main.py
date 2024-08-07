@@ -14,9 +14,9 @@ from tqdm import tqdm
 def main() -> None:
 
     # Load model
-    model = ColPali.from_pretrained(os.environ["MODEL_HOME"] + "/google/paligemma-3b-mix-448", torch_dtype=torch.bfloat16, device_map="cuda").eval()
-    model.load_adapter(os.environ["MODEL_HOME"] + "/vidore/colpali")
-    processor = AutoProcessor.from_pretrained(os.environ["MODEL_HOME"] + "/vidore/colpali")
+    model = ColPali.from_pretrained(os.environ["MODEL_HOME"] + "google/paligemma-3b-mix-448", torch_dtype=torch.bfloat16, device_map="cuda").eval()
+    model.load_adapter(os.environ["MODEL_HOME"] + "vidore/colpali")
+    processor = AutoProcessor.from_pretrained(os.environ["MODEL_HOME"] + "vidore/colpali")
 
     # select images -> load_from_pdf(<pdf_path>),  load_from_image_urls(["<url_1>"]), load_from_dataset(<path>)
     images = load_from_dataset("vidore/docvqa_test_subsampled")
