@@ -15,10 +15,12 @@ def main() -> None:
     """Example script to run inference with ColPali"""
 
     # Load model
-    model_name = "vidore/colpali-v1.1"
-    model = ColPali.from_pretrained("vidore/colpaligemma-3b-mix-448-base", torch_dtype=torch.bfloat16, device_map="cuda").eval()
-    model.load_adapter(model_name)
-    processor = AutoProcessor.from_pretrained(model_name)
+    adapter_name = "vidore/colpali-3b-pt-448"
+    madel_name = "google/paligemma-3b-pt-448"
+    model = ColPali.from_pretrained(madel_name, torch_dtype=torch.bfloat16, device_map="cuda").eval()
+    processor = AutoProcessor.from_pretrained(adapter_name)
+    model.load_adapter(adapter_name)
+   
 
     # select images -> load_from_pdf(<pdf_path>),  load_from_image_urls(["<url_1>"]), load_from_dataset(<path>)
     images = load_from_dataset("vidore/docvqa_test_subsampled")
